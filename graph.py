@@ -38,21 +38,33 @@ def quadratic_bezier(p0x,p0y,p1x,p1y,p2x,p2y,t):
          # it turns out my original code was actually correct, and that i had understood the question
          # but I'm not familar with computer graphics, and kept messing up the lines (by projecting them from the wrong angle, etc)
         tsquare = t * t;
+        pointsx = [];
+        pointsy = [];
+     
         while t <= 1:
                  qx = (p1x + ((p0x + ((p0x * tsquare) - (2 * t * p0x)))) - ((p1x + (p1x * tsquare) - (2 * t * p1x))) + (tsquare * (p2x - p1x)));
                  qy = (p1y + ((p0y + ((p0y * tsquare) - (2 * t * p0y)))) - ((p1y + (p1y * tsquare) - (2 * t * p1y))) + (tsquare * (p2y - p1y)));
                  if ((qx >= p0x) or (qx <= p2x) and ((qy >= p0y) or (qy <= p2y))):
-                          test_context.move_to(p1x,p1y);
-                          test_context.line_to(qx,qy);
-                          test_context.stroke();
+                          pointsx.append(qx);
+                          pointsy.append(qy);
                  t = t + 0.1;
-
-
-
+        for i in (range(len(pointsx))):
+                 try:
+                    test_context.line_to(pointsx[i],pointsy[i]);
+                    test_context.line_to(p1y,p1x);
+                    test_context.move_to(pointsx[i+1],pointsy[i+1]);
+                    test_context.line_to(pointsx[i],pointsy[i]);
+                    print("writing from " + str(pointsx[i]) + "," + str(pointsy[i]) + " to " + str(pointsx[i + 1]) + "," + str(pointsy[i + 1]));
+                    test_context.stroke();
+                    test_surface.write_to_png("curve.png");
+                 except IndexError:
+                          pass;
 
 
 test_context.set_source_rgb(0.1,0.2,0);
 #linear_bezier(0,0,1,1,0.50);
-quadratic_bezier(0.5,0.3,0,1,0.41,0.91,0);
+quadratic_bezier(0.21,0.51,0.55,0,0.3,0.81,0);
+
+
 test_surface.finish()
 
