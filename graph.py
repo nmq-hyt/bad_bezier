@@ -3,10 +3,11 @@ import cairo
 print ("Cairo Version " + cairo.cairo_version_string());
 
 
-test_surface = cairo.ImageSurface(cairo.FORMAT_A1, 1024,1024);
+test_surface = cairo.ImageSurface(cairo.FORMAT_A1, 512,512);
 test_context = cairo.Context(test_surface);
 
-test_context.scale(1024,1024);
+test_context.scale(256,256);
+
 test_context.set_line_width(0.007);
 
 
@@ -47,7 +48,7 @@ def quadratic_bezier(p0x,p0y,p1x,p1y,p2x,p2y,t):
                  if ((qx >= p0x) or (qx <= p2x) and ((qy >= p0y) or (qy <= p2y))):
                           pointsx.append(qx);
                           pointsy.append(qy);
-                 t = t + 0.1;
+                 t = t + 0.2;
         for i in (range(len(pointsx))):
                  try:
                     test_context.line_to(pointsx[i],pointsy[i]);
@@ -63,7 +64,7 @@ def quadratic_bezier(p0x,p0y,p1x,p1y,p2x,p2y,t):
 
 test_context.set_source_rgb(0.1,0.2,0);
 #linear_bezier(0,0,1,1,0.50);
-quadratic_bezier(0.21,0.51,0.55,0,0.3,0.81,0);
+quadratic_bezier(0.21,0.81,0.751,0,0.7,0.81,0);
 
 
 test_surface.finish()
